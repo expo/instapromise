@@ -1,0 +1,31 @@
+{
+  "name": "instapromise",
+  "version": "0.0.8",
+  "description": "Promisify node style async functions by putting a .promise after them (or after the object for methods)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/650Industries/instapromise.git"
+  },
+  "keywords": [
+    "promisify",
+    "promises",
+    "es7",
+    "lazy"
+  ],
+  "author": "Charlie Cheever <ccheever@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/650Industries/instapromise/issues"
+  },
+  "homepage": "https://github.com/650Industries/instapromise",
+  "dependencies": {
+    "bluebird": "^2.9.6"
+  },
+  "devDependencies": {
+    "request": "^2.53.0"
+  }
+}
