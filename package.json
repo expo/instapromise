@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/650Industries/instapromise",
   "dependencies": {
-    "bluebird": "^2.9.6"
+    "native-or-bluebird": "^1.1.2"
   },
   "devDependencies": {
     "request": "^2.53.0"

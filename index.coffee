@@ -21,7 +21,23 @@ https://github.com/goodeggs/fibrous/blob/master/src/fibrous.coffee
 
 """
 
-{ promisify } = require 'bluebird'
+##{ promisify } = require 'bluebird'
+#promisify = require 'es6-promisify'
+promisify = require './thenify'
+
+asyncArrayReturn = (nodeStyleAsyncFunction) ->
+  """Transforms a Node-style async function that has multiple passed values
+    (ex. (err, result, result2, result3)) into one that only has err and then
+    an Array of those values (ex. (err, [result, result2, result3])) to
+    conform to the (err, result) convention"""
+
+  (args..., callback) ->
+    args.push (err, cbArgs...) ->
+      callback? err, cbArgs
+    nodeStyleAsyncFunction.apply @, args
+
+promisifyArray = (nodeStyleAsyncFunction) ->
+  promisify asyncArrayReturn nodeStyleAsyncFunction
 
 module.exports = promisify
 
@@ -36,22 +52,25 @@ proxyAll = (src, target, proxyFn) ->
 
   target
 
-proxyBuilder = ->
+proxyBuilder = (prop) ->
   (that) ->
     result =
       if typeof(that) is 'function'
-        func = promisify that
-        func.__proto__ = Object.getPrototypeOf(that).promise if Object.getPrototypeOf(that) isnt Function.prototype
+        func = switch prop
+          when 'promise' then promisify that
+          when 'promiseArray' then promisifyArray that
+          else throw new Error "Unknown proxy property `#{ prop }`"
+        func.__proto__ = Object.getPrototypeOf(that)[prop] if Object.getPrototypeOf(that) isnt Function.prototype
         func
       else
-        Object.create(Object.getPrototypeOf(that) and Object.getPrototypeOf(that).promise or Object::)
+        Object.create(Object.getPrototypeOf(that) and Object.getPrototypeOf(that)[prop] or Object::)
 
     result.that = that
 
     proxyAll that, result, (key) ->
       (args...) ->
           # Relookup the method every time to pick up reassignments of key on obj or an instance
-          @that[key].promise.apply(@that, args)
+          @that[key][prop].apply(@that, args)
 
 
 defineMemoizedPerInstanceProperty = (target, propertyName, factory) ->
@@ -68,4 +87,5 @@ defineMemoizedPerInstanceProperty = (target, propertyName, factory) ->
 
 # Mixin sync and future to Object and Function
 for base in [Object::, Function::]
-  defineMemoizedPerInstanceProperty(base, 'promise', proxyBuilder())
+  for prop in ['promise', 'promiseArray']
+    defineMemoizedPerInstanceProperty(base, prop, proxyBuilder prop)
