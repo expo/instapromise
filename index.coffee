@@ -55,7 +55,7 @@ proxyBuilder = ->
 
 
 defineMemoizedPerInstanceProperty = (target, propertyName, factory) ->
-  cacheKey = "__fibrous#{propertyName}__"
+  cacheKey = "__instapromise#{propertyName}__"
   Object.defineProperty target, propertyName,
     enumerable: false
     set: (value) ->
