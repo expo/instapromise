@@ -21,8 +21,8 @@ https://github.com/goodeggs/fibrous/blob/master/src/fibrous.coffee
 
 """
 
-##{ promisify } = require 'bluebird'
-#promisify = require 'es6-promisify'
+Promise = require 'native-or-bluebird'
+
 promisify = require './thenify'
 
 asyncArrayReturn = (nodeStyleAsyncFunction) ->
@@ -38,8 +38,6 @@ asyncArrayReturn = (nodeStyleAsyncFunction) ->
 
 promisifyArray = (nodeStyleAsyncFunction) ->
   promisify asyncArrayReturn nodeStyleAsyncFunction
-
-module.exports = promisify
 
 proxyAll = (src, target, proxyFn) ->
   for key in Object.keys(src) # Gives back the keys on this object, not on prototypes
@@ -89,3 +87,10 @@ defineMemoizedPerInstanceProperty = (target, propertyName, factory) ->
 for base in [Object::, Function::]
   for prop in ['promise', 'promiseArray']
     defineMemoizedPerInstanceProperty(base, prop, proxyBuilder prop)
+
+module.exports = {
+  __doc__
+  Promise
+  promisify
+  promisifyArray
+}

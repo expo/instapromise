@@ -1,6 +1,6 @@
 {
   "name": "instapromise",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Promisify node style async functions by putting a .promise after them (or after the object for methods)",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,7 @@
     "promisify",
     "promises",
     "es7",
+    "monkeypatch",
     "lazy"
   ],
   "author": "Charlie Cheever <ccheever@gmail.com>",
@@ -26,6 +27,7 @@
     "native-or-bluebird": "^1.1.2"
   },
   "devDependencies": {
+    "coffee-script": "^1.9.0",
     "request": "^2.53.0"
   }
 }
