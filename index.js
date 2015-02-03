@@ -3,7 +3,7 @@
   var Promise, asyncArrayReturn, base, defineMemoizedPerInstanceProperty, promisify, promisifyArray, prop, proxyAll, proxyBuilder, __doc__, _i, _j, _len, _len1, _ref, _ref1,
     __slice = [].slice;
 
-  __doc__ = "If you use this library then if you put `.promise` after a Node-style async\nfunction, it will turn it into a function that returns a Promise instead of\ntaking a callback.\n\nEx.\n  promisify = require 'instapromise'\n  p = fs.readFile.promise \"/tmp/hello\", 'utf8'\n  p.then(console.log)\n\nIf you want to promisify methods, use `.promise` after the object and before\nthe method name.\n\nEx.\n  promisify = require 'instapromise'\n  p = fs.promise.readFile \"/tmp/hello\", 'utf8'\n  p.then(console.log)\n\nThis code is based on the proxying code used in fibrous.\nhttps://github.com/goodeggs/fibrous/blob/master/src/fibrous.coffee\n";
+  __doc__ = "If you use this library then if you put `.promise` after a Node-style async\nfunction, it will turn it into a function that returns a Promise instead of\ntaking a callback.\n\n```\n  promisify = require 'instapromise'\n  p = fs.readFile.promise \"/tmp/hello\", 'utf8'\n  p.then(console.log)\n```\n\nIf you want to promisify methods, use `.promise` after the object and before\nthe method name.\n\n```\n  promisify = require 'instapromise'\n  p = fs.promise.readFile \"/tmp/hello\", 'utf8'\n  p.then(console.log)\n```\n\nThis code is based on the proxying code used in fibrous.\nhttps://github.com/goodeggs/fibrous/blob/master/src/fibrous.coffee\n";
 
   Promise = require('native-or-bluebird');
 
