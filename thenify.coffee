@@ -1,3 +1,12 @@
+__doc__ = """
+
+
+Based on the `thenify` code here:
+https://github.com/thenables/thenify/blob/master/index.js
+
+"""
+
+
 Promise = require 'native-or-bluebird'
 
 thenify = ($$___thenifyFunction___$$) ->
