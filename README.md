@@ -5,6 +5,9 @@ If you use this library then if you put `.promise` after a Node-style async
 function, it will turn it into a function that returns a Promise instead of
 taking a callback.
 
+The original function is available as a property on the Promise generating
+function (`.___instapromiseOriginalFunction___`).
+
 ```
   promisify = require 'instapromise'
   p = fs.readFile.promise "/tmp/hello", 'utf8'

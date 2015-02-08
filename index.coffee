@@ -3,6 +3,9 @@ If you use this library then if you put `.promise` after a Node-style async
 function, it will turn it into a function that returns a Promise instead of
 taking a callback.
 
+The original function is available as a property on the Promise generating
+function (`.___instapromiseOriginalFunction___`).
+
 ```
   promisify = require 'instapromise'
   p = fs.readFile.promise "/tmp/hello", 'utf8'
@@ -71,6 +74,7 @@ proxyAll = (src, target, proxyFn) ->
       return unless typeof src[key] is 'function' # getter methods may throw an exception in some contexts
 
       target[key] = proxyFn(key)
+      target[key].___instapromiseOriginalFunction___ = src[key]
 
   target
 
@@ -83,6 +87,7 @@ proxyBuilder = (prop) ->
           when 'promiseArray' then promisifyArray that
           else throw new Error "Unknown proxy property `#{ prop }`"
         func.__proto__ = Object.getPrototypeOf(that)[prop] if Object.getPrototypeOf(that) isnt Function.prototype
+        func.___instapromiseOriginalFunction___ = that
         func
       else
         Object.create(Object.getPrototypeOf(that) and Object.getPrototypeOf(that)[prop] or Object::)
@@ -102,7 +107,7 @@ defineMemoizedPerInstanceProperty = (target, propertyName, factory) ->
     configurable: true # So we can overwrite as necessary
     set: (value) ->
       delete @[cacheKey]
-      Object.defineProperty @, propertyName, value: value, writable:true, configurable: true, enumerable: true # allow overriding the property turning back to default behavior
+      Object.defineProperty @, propertyName, value: value, writable: true, configurable: true, enumerable: true # allow overriding the property turning back to default behavior
     get: ->
       unless Object::hasOwnProperty.call(@, cacheKey) and @[cacheKey]
         Object.defineProperty @, cacheKey, value: factory(@), writable: true, configurable: true, enumerable: false # ensure the cached version is not enumerable
