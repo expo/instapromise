@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/650Industries/instapromise.git"
+    "url": "https://github.com/exponentjs/instapromise.git"
   },
   "keywords": [
     "promisify",
@@ -20,9 +20,9 @@
   "author": "Charlie Cheever <ccheever@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/650Industries/instapromise/issues"
+    "url": "https://github.com/exponentjs/instapromise/issues"
   },
-  "homepage": "https://github.com/650Industries/instapromise",
+  "homepage": "https://github.com/exponentjs/instapromise",
   "dependencies": {
     "native-or-bluebird": "^1.1.2"
   },
