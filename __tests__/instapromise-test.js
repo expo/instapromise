@@ -4,16 +4,7 @@ jest.autoMockOff();
 
 require('..');
 
-
 describe('instapromise', function() {
-
-  // beforeEach(function() {
-  //   jasmine.clock().install();
-  // });
-  //
-  // afterEach(function() {
-  //   jasmine.clock().uninstall();
-  // });
 
   it('adds `promise` to all objects and functions', function() {
     function func() {}
