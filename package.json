@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "coffee build.coffee",
-    "test": "coffee test.coffee"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,6 @@
   "homepage": "https://github.com/exponentjs/instapromise",
   "devDependencies": {
     "coffee-script": "^1.9.0",
-    "request": "^2.53.0"
+    "jest": "ide/jest#iojs"
   }
 }
