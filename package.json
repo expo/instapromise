@@ -1,6 +1,6 @@
 {
   "name": "instapromise",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Promisify node style async functions by putting a .promise after them (or after the object for methods)",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/exponentjs/instapromise",
   "dependencies": {
-    "native-or-bluebird": "^1.1.2"
+    "es6-promise": "^2.3.0"
   },
   "devDependencies": {
     "coffee-script": "^1.9.0",

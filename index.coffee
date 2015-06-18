@@ -26,7 +26,7 @@ https://github.com/goodeggs/fibrous/blob/master/src/fibrous.coffee
 
 """
 
-Promise ?= require 'native-or-bluebird'
+Promise ?= require('es6-promise').Promise
 
 thenify = require './thenify'
 
