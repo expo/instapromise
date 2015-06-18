@@ -23,9 +23,6 @@
     "url": "https://github.com/exponentjs/instapromise/issues"
   },
   "homepage": "https://github.com/exponentjs/instapromise",
-  "dependencies": {
-    "es6-promise": "^2.3.0"
-  },
   "devDependencies": {
     "coffee-script": "^1.9.0",
     "request": "^2.53.0"
