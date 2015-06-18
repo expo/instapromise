@@ -1,11 +1,11 @@
-# instapromise
-Promisify Node-style async functions by putting a `.promise` after them (or after the object for methods)
+# Instapromise
+Promisify Node-style asynchronous functions by putting a `.promise` after them (or after the object for methods).
 
 [![npm package](https://nodei.co/npm/instapromise.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/instapromise/)
 
-If you use this library then if you put `.promise` after a Node-style async
-function, it will turn it into a function that returns a Promise instead of
-taking a callback.
+If you use this library then if you put `.promise` after a Node-style
+asynchronous function, it will turn it into a function that returns a promise
+instead of taking a callback.
 
 ```js
 require('instapromise');
@@ -14,7 +14,7 @@ var p = fs.readFile.promise('/tmp/hello', 'utf8');
 p.then(console.log);
 ```
 
-The original function is available as a property on the Promise generating
+The original function is available as a property on the promise-generating
 function (`.___instapromiseOriginalFunction___`).
 
 If you want to promisify methods, use `.promise` after the object and before

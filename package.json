@@ -2,9 +2,13 @@
   "name": "instapromise",
   "version": "2.0.0",
   "description": "Promisify node style async functions by putting a .promise after them (or after the object for methods)",
-  "main": "index.js",
+  "main": "build/index.js",
+  "files": [
+    "build"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "coffee build.coffee",
+    "test": "coffee test.coffee"
   },
   "repository": {
     "type": "git",
