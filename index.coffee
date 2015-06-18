@@ -7,8 +7,9 @@ The original function is available as a property on the Promise generating
 function (`.___instapromiseOriginalFunction___`).
 
 ```
-  promisify = require 'instapromise'
-  p = fs.readFile.promise "/tmp/hello", 'utf8'
+  var fs = require('fs');
+  var promisify = require('instapromise');
+  var p = fs.readFile.promise("/tmp/hello", 'utf8');
   p.then(console.log)
 ```
 
@@ -16,8 +17,9 @@ If you want to promisify methods, use `.promise` after the object and before
 the method name.
 
 ```
-  promisify = require 'instapromise'
-  p = fs.promise.readFile "/tmp/hello", 'utf8'
+  var fs = require('fs');
+  var promisify = require('instapromise');
+  var p = fs.promise.readFile("/tmp/hello", 'utf8');
   p.then(console.log)
 ```
 
@@ -25,8 +27,6 @@ This code is based on the proxying code used in fibrous.
 https://github.com/goodeggs/fibrous/blob/master/src/fibrous.coffee
 
 """
-
-Promise ?= require('es6-promise').Promise
 
 thenify = require './thenify'
 

@@ -1,6 +1,6 @@
 {
-  "name": "@exponent/instapromise",
-  "version": "1.0.1",
+  "name": "instapromise",
+  "version": "2.0.0",
   "description": "Promisify node style async functions by putting a .promise after them (or after the object for methods)",
   "main": "index.js",
   "scripts": {

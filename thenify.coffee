@@ -6,9 +6,6 @@ https://github.com/thenables/thenify/blob/master/index.js
 
 """
 
-
-Promise ?= require('es6-promise').Promise
-
 thenify = ($$___thenifyFunction___$$) ->
   """Turns a Node-style async function into a Promise"""
 
