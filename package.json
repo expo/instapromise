@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/exponentjs/instapromise",
   "devDependencies": {
-    "coffee-script": "^1.9.3",
-    "jest-cli": "^0.5.0"
+    "coffee-script": "^1.10.0",
+    "jest-cli": "^0.7.1"
   }
 }
