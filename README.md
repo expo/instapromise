@@ -1,4 +1,4 @@
-# Instapromise [![Build Status](https://travis-ci.org/exponentjs/instapromise.svg)](https://travis-ci.org/exponentjs/instapromise) [![Slack](http://slack.exponentjs.com/badge.svg)](http://slack.exponentjs.com)
+# Instapromise [![Build Status](https://travis-ci.org/exponentjs/instapromise.svg)](https://travis-ci.org/exponentjs/instapromise)
 Promisify Node-style asynchronous functions by putting a `.promise` after them (or after the object for methods).
 
 [![npm package](https://nodei.co/npm/instapromise.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/instapromise/)
