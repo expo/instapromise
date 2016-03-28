@@ -1,4 +1,4 @@
-# Instapromise [![Build Status](https://travis-ci.org/exponentjs/instapromise.svg)](https://travis-ci.org/exponentjs/instapromise)
+# Instapromise [![Circle CI](https://circleci.com/gh/exponentjs/instapromise.svg?style=svg)](https://circleci.com/gh/exponentjs/instapromise)
 Promisify Node-style asynchronous functions by putting a `.promise` after them (or after the object for methods).
 
 [![npm package](https://nodei.co/npm/instapromise.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/instapromise/)
