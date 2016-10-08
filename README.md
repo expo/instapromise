@@ -8,31 +8,29 @@ asynchronous function, it will turn it into a function that returns a promise
 instead of taking a callback.
 
 ```js
-require('instapromise');
-var fs = require('fs');
-var p = fs.readFile.promise('/tmp/hello', 'utf8');
+import 'instapromise';
+import fs from 'fs';
+
+let p = fs.readFile.promise('/tmp/hello', 'utf8');
 p.then(console.log);
 ```
 
-The original function is available as a property on the promise-generating
-function (`.___instapromiseOriginalFunction___`).
+The original function is available as a property on the promise-generating function (`.___instapromiseOriginalFunction___`).
 
-If you want to promisify methods, use `.promise` after the object and before
-the method name.
+If you want to promisify methods, use `.promise` after the object and before the method name.
 
 ```js
-require('instapromise');
-var fs = require('fs');
-var p = fs.promise.readFile('/tmp/hello', 'utf8');
+import 'instapromise';
+import fs from 'fs';
+
+let p = fs.promise.readFile('/tmp/hello', 'utf8');
 p.then(console.log);
 ```
 
 ## Changelog
 
 ### 2.0.0
-The `Promise` polyfill is no longer provided. 1.x provided a polyfill for
-environments without a native `Promise` implementation, but in general, most
-environments you'll use now provide `Promise`.
+The `Promise` polyfill is no longer provided. 1.x provided a polyfill for environments without a native `Promise` implementation, but in general, most environments you'll use now provide `Promise`.
 
 ## Credits
 

@@ -2,12 +2,12 @@
   "name": "instapromise",
   "version": "2.0.2",
   "description": "Promisify Node-style asynchronous functions by putting a .promise after them (or after the object for methods)",
-  "main": "build/index.js",
+  "main": "build/instapromise.js",
   "files": [
     "build"
   ],
   "scripts": {
-    "build": "coffee build.coffee",
+    "build": "babel --ignore __tests__ -d build src",
     "test": "jest"
   },
   "repository": {
@@ -17,18 +17,18 @@
   "keywords": [
     "promisify",
     "promises",
-    "es7",
     "monkeypatch",
     "lazy"
   ],
-  "author": "Charlie Cheever <ccheever@gmail.com>",
+  "author": "Exponent",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/exponentjs/instapromise/issues"
   },
   "homepage": "https://github.com/exponentjs/instapromise",
   "devDependencies": {
-    "coffee-script": "^1.11.1",
+    "babel-cli": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
     "jest": "^16.0.0"
   }
 }
