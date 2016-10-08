@@ -29,6 +29,10 @@ p.then(console.log);
 
 ## Changelog
 
+### 2.0.3
+
+The `___instapromiseOriginalFunction___` property is now non-enumerable so it doesn't show up when serializing functions whose `promise` property has been accessed before.
+
 ### 2.0.0
 The `Promise` polyfill is no longer provided. 1.x provided a polyfill for environments without a native `Promise` implementation, but in general, most environments you'll use now provide `Promise`.
 
