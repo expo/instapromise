@@ -9,10 +9,20 @@ const nonProxiedPropertyNames = {
 };
 
 function defineMemoizedInstanceProperty(target, propertyName, factory) {
+  let memoizedTargetProperty;
   Object.defineProperty(target, propertyName, {
     enumerable: false,
     configurable: true,
     get() {
+      // Don't override this getter on the original target since we still need
+      // to call this getter via the prototype chain from other objects
+      if (this === target) {
+        if (memoizedTargetProperty === 'undefined') {
+          memoizedTargetProperty = factory(this);
+        }
+        return memoizedTargetProperty;
+      }
+
       let value = factory(this);
       Object.defineProperty(this, propertyName, {
         enumerable: false,
@@ -53,11 +63,19 @@ function createPromisifiedProxy(source, promisifyPropertyName) {
 
     let originalPrototype = Object.getPrototypeOf(source);
     if (originalPrototype !== Function.prototype) {
-      setPrototypeOf(proxy, originalPrototype);
+      setPrototypeOf(proxy, originalPrototype[promisifyPropertyName]);
     }
   } else {
     let originalPrototype = Object.getPrototypeOf(source);
-    proxy = Object.create(originalPrototype);
+    let proxyPrototype;
+    if (originalPrototype && originalPrototype[promisifyPropertyName]) {
+      proxyPrototype = originalPrototype[promisifyPropertyName];
+    } else {
+      proxyPrototype = originalPrototype;
+    }
+    proxy = Object.create(proxyPrototype);
+
+    let propertyNames = Object.getOwnPropertyNames(source);
   }
 
   // Expose the functions of the source object through the proxy
@@ -80,11 +98,15 @@ function createPromisifiedProxy(source, promisifyPropertyName) {
     if (typeof source[propertyName] !== 'function') {
       continue;
     }
-    proxy[propertyName] = function(...args) {
-      let asyncFunction = promisify(source[propertyName], withArrayResult);
-      return asyncFunction.apply(source, args);
-    };
-    proxy[propertyName].displayName = propertyName;
+    let asyncFunction = promisify(source[propertyName], withArrayResult).bind(source);
+    asyncFunction.displayName = propertyName;
+
+    Object.defineProperty(proxy, propertyName, {
+      enumerable: descriptor.enumerable,
+      configurable: descriptor.configurable,
+      value: asyncFunction,
+      writable: descriptor.writable,
+    });
   }
 
   return proxy;

@@ -41,13 +41,33 @@ describe('promise', () => {
   it('promisifies object methods', () => {
     let methodCallback;
     let object = {
-      method(a, b, callback) {
+      methodX(a, b, callback) {
         expect(a).toBe('arg0');
         expect(b).toBe('arg1');
         methodCallback = callback;
       },
     };
 
+    let promise = object.promise.methodX('arg0', 'arg1');
+    expect(typeof methodCallback).toBe('function');
+
+    methodCallback(null, 'result');
+    return promise.then(result => {
+      expect(result).toBe('result');
+    });
+  });
+
+  it('promisifies instance methods', () => {
+    let methodCallback;
+    class TestClass {
+      method(a, b, callback) {
+        expect(a).toBe('arg0');
+        expect(b).toBe('arg1');
+        methodCallback = callback;
+      }
+    }
+
+    let object = new TestClass();
     let promise = object.promise.method('arg0', 'arg1');
     expect(typeof methodCallback).toBe('function');
 
@@ -70,16 +90,17 @@ describe('promise', () => {
     });
   });
 
-  // it('does not set `this` when accessed on a function', () => {
-  //   function func(callback) {
-  //     expect(this).toBe(undefined);
-  //     callback(null, 'result');
-  //   }
-  //
-  //   return func.promise().then(function(result) {
-  //     expect(result).toBe('result');
-  //   });
-  // });
+  // Not sure how to implement this without calling bind
+  xit('does not set `this` when accessed on a function', () => {
+    function func(callback) {
+      expect(this).toBe(undefined);
+      callback(null, 'result');
+    }
+
+    return func.promise().then(function(result) {
+      expect(result).toBe('result');
+    });
+  });
 
   it('sets `this` when bound', () => {
     let context = {};

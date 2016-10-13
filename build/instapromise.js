@@ -9,10 +9,20 @@ var nonProxiedPropertyNames = {
 };
 
 function defineMemoizedInstanceProperty(target, propertyName, factory) {
+  var memoizedTargetProperty = void 0;
   Object.defineProperty(target, propertyName, {
     enumerable: false,
     configurable: true,
     get: function get() {
+      // Don't override this getter on the original target since we still need
+      // to call this getter via the prototype chain from other objects
+      if (this === target) {
+        if (memoizedTargetProperty === 'undefined') {
+          memoizedTargetProperty = factory(this);
+        }
+        return memoizedTargetProperty;
+      }
+
       var value = factory(this);
       Object.defineProperty(this, propertyName, {
         enumerable: false,
@@ -53,11 +63,19 @@ function createPromisifiedProxy(source, promisifyPropertyName) {
 
     var originalPrototype = Object.getPrototypeOf(source);
     if (originalPrototype !== Function.prototype) {
-      setPrototypeOf(proxy, originalPrototype);
+      setPrototypeOf(proxy, originalPrototype[promisifyPropertyName]);
     }
   } else {
     var _originalPrototype = Object.getPrototypeOf(source);
-    proxy = Object.create(_originalPrototype);
+    var proxyPrototype = void 0;
+    if (_originalPrototype && _originalPrototype[promisifyPropertyName]) {
+      proxyPrototype = _originalPrototype[promisifyPropertyName];
+    } else {
+      proxyPrototype = _originalPrototype;
+    }
+    proxy = Object.create(proxyPrototype);
+
+    var _propertyNames = Object.getOwnPropertyNames(source);
   }
 
   // Expose the functions of the source object through the proxy
@@ -67,42 +85,35 @@ function createPromisifiedProxy(source, promisifyPropertyName) {
   var _iteratorError = undefined;
 
   try {
-    var _loop = function _loop() {
+    for (var _iterator = propertyNames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var propertyName = _step.value;
 
       if (nonProxiedPropertyNames.hasOwnProperty(propertyName)) {
-        return 'continue';
+        continue;
       }
       // Ignore overrides of built-in methods like toString that can cause issues
       if (Object.prototype.hasOwnProperty(propertyName)) {
-        return 'continue';
+        continue;
       }
       var descriptor = Object.getOwnPropertyDescriptor(source, propertyName);
       // Getter methods are not supported since they can have unintentional side
       // effects when called in the wrong context
       if (descriptor.get) {
-        return 'continue';
+        continue;
       }
       // Proxy only functions
       if (typeof source[propertyName] !== 'function') {
-        return 'continue';
+        continue;
       }
-      proxy[propertyName] = function () {
-        var asyncFunction = promisify(source[propertyName], withArrayResult);
+      var asyncFunction = promisify(source[propertyName], withArrayResult).bind(source);
+      asyncFunction.displayName = propertyName;
 
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        return asyncFunction.apply(source, args);
-      };
-      proxy[propertyName].displayName = propertyName;
-    };
-
-    for (var _iterator = propertyNames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var _ret = _loop();
-
-      if (_ret === 'continue') continue;
+      Object.defineProperty(proxy, propertyName, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        value: asyncFunction,
+        writable: descriptor.writable
+      });
     }
   } catch (err) {
     _didIteratorError = true;
@@ -134,7 +145,7 @@ var _arr = [Object.prototype, Function.prototype];
 for (var _i = 0; _i < _arr.length; _i++) {
   var base = _arr[_i];var _arr2 = ['promise', 'promiseArray'];
 
-  var _loop2 = function _loop2() {
+  var _loop = function _loop() {
     var promisifyPropertyName = _arr2[_i2];
     if (base.hasOwnProperty(promisifyPropertyName)) {
       return 'continue';
@@ -145,8 +156,8 @@ for (var _i = 0; _i < _arr.length; _i++) {
   };
 
   for (var _i2 = 0; _i2 < _arr2.length; _i2++) {
-    var _ret2 = _loop2();
+    var _ret = _loop();
 
-    if (_ret2 === 'continue') continue;
+    if (_ret === 'continue') continue;
   }
 }
