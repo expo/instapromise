@@ -1,6 +1,6 @@
 {
   "name": "instapromise",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Promisify Node-style asynchronous functions by putting a .promise after them (or after the object for methods)",
   "main": "build/instapromise.js",
   "files": [
