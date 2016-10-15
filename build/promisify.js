@@ -71,7 +71,7 @@ function createCallback(resolve, reject) {
 }
 
 function createWrapper(name, withArrayResult) {
-  return '(function ' + name + '() {\n' + 'var self = this\n' + 'var len = arguments.length\n' + 'var args = new Array(len + 1)\n' + 'for (var i = 0; i < len; ++i) args[i] = arguments[i]\n' + 'var lastIndex = i\n' + 'return new Promise(function(resolve, reject) {\n' + 'args[lastIndex] = createCallback(resolve, reject)\n' + '$$__fn__$$.apply(self, args)\n' + '})\n' + '})';
+  return '({\n' + ('  "' + name + '": function() {\n') + '    var self = this;\n' + '    var length = arguments.length;\n' + '    var args = new Array(length + 1);\n' + '    for (var ii = 0; ii < length; ii++) {\n' + '      args[ii] = arguments[ii];\n' + '    }\n' + '    var lastIndex = ii;\n' + '    return new Promise(function(resolve, reject) {\n' + '      args[lastIndex] = createCallback(resolve, reject);\n' + '      $$__fn__$$.apply(self, args); \n' + '    });\n' + '  }\n' + ('})["' + name + '"]');
 }
 
 module.exports = promisify;
