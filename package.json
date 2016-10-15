@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "build": "babel --ignore __tests__ -d build src",
-    "test": "jest"
+    "test": "jest",
+    "watch": "babel --watch --ignore __tests__ -d build src"
   },
   "repository": {
     "type": "git",
