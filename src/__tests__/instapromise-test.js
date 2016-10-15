@@ -97,7 +97,7 @@ describe('promise', () => {
       callback(null, 'result');
     }
 
-    return func.promise().then(function(result) {
+    return func.promise().then(result => {
       expect(result).toBe('result');
     });
   });
@@ -108,7 +108,7 @@ describe('promise', () => {
       callback(null, this);
     }
 
-    return func.promise.bind(context)().then(function(result) {
+    return func.promise.bind(context)().then(result => {
       expect(result).toBe(context);
     });
   });
@@ -119,7 +119,7 @@ describe('promise', () => {
       callback(null, this);
     }
 
-    return func.promise.call(context).then(function(result) {
+    return func.promise.call(context).then(result => {
       expect(result).toBe(context);
     });
   });
@@ -130,7 +130,7 @@ describe('promise', () => {
       callback(null, this);
     }
 
-    return func.bind(context).promise().then(function(result) {
+    return func.bind(context).promise().then(result => {
       expect(result).toBe(context);
     });
   });
@@ -140,7 +140,7 @@ describe('promise', () => {
       callback(null, 'result0', 'result1');
     }
 
-    return func.promise().then(function(result) {
+    return func.promise().then(result => {
       expect(result).toBe('result0');
     });
   });
@@ -155,6 +155,53 @@ describe('promise', () => {
     }, error => {
       expect(error instanceof Error).toBe(true);
       expect(error.message).toBe('intentional error');
+    });
+  });
+
+  it('supports anonymous functions', () => {
+    let anonymousFunction = new Function('callback', 'callback(null, "ok")');
+
+    expect(anonymousFunction.promise.name).toBe('anonymous');
+    return anonymousFunction.promise().then(result => {
+      expect(result).toBe('ok');
+    });
+  });
+
+  it('supports functions named `default`', () => {
+    let defaultFunction = ({
+      default(callback) {
+        callback(null, 'ok');
+      },
+    }).default;
+
+    expect(defaultFunction.name).toBe('default');
+    return defaultFunction.promise().then(result => {
+      expect(result).toBe('ok');
+    });
+  });
+
+  it('supports bound functions', () => {
+    let boundFunction = function example(callback) {
+      callback(null, 'ok');
+    }.bind(null);
+
+    expect(boundFunction.promise.name).toBe('example');
+    return boundFunction.promise().then(result => {
+      expect(result).toBe('ok');
+    });
+  });
+
+  it('supports functions with symbol names', () => {
+    let symbolFunction = ({
+      [Symbol.iterator](callback) {
+        callback(null, 'ok');
+      },
+    })[Symbol.iterator];
+
+    // The name actually should be "[Symbol.iterator]"
+    expect(symbolFunction.promise.name).toBe('');
+    return symbolFunction.promise().then(result => {
+      expect(result).toBe('ok');
     });
   });
 });
