@@ -199,7 +199,7 @@ describe('promise', () => {
     })[Symbol.iterator];
 
     // The name actually should be "[Symbol.iterator]"
-    expect(symbolFunction.promise.name).toBe('');
+    expect(symbolFunction.promise.name).toBe('iterator');
     return symbolFunction.promise().then(result => {
       expect(result).toBe('ok');
     });

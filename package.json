@@ -7,9 +7,9 @@
     "build"
   ],
   "scripts": {
-    "build": "babel --ignore __tests__ -d build src",
+    "build": "babel -d build src",
     "test": "jest",
-    "watch": "babel --watch --ignore __tests__ -d build src"
+    "watch": "babel --watch -d build src"
   },
   "repository": {
     "type": "git",
