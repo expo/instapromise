@@ -1,8 +1,4 @@
 {
-  "env": {
-    "development": {
-      "presets": ["es2015", "x"],
-      "ignore": "__tests__"
-    }
-  }
+  "presets": ["es2015"],
+  "ignore": "__tests__"
 }
