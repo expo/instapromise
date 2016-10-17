@@ -29,6 +29,10 @@ p.then(console.log);
 
 ## Changelog
 
+### 2.0.7
+Non-enumerable properties like class methods are now promisified.
+Functions with names that would cause syntax errors (like `default`) are supported.
+
 ### 2.0.3
 
 The `___instapromiseOriginalFunction___` property is now non-enumerable so it doesn't show up when serializing functions whose `promise` property has been accessed before.
