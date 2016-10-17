@@ -204,6 +204,11 @@ describe('promise', () => {
       expect(result).toBe('ok');
     });
   });
+
+  xit('is defined on Jest mocks', () => {
+    let mockFunction = jest.fn();
+    expect(typeof mockFunction.promise).toBe('function');
+  });
 });
 
 describe('promiseArray', () => {
